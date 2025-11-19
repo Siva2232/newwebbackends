@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 
   try {
     // GoDaddy SMTP Transporter
-    const transporter = nodemailer.createTransport({
+    const transporter = await nodemailer.createTransport({
       host: "smtpout.secureserver.net",  // REQUIRED for GoDaddy
       port: 465,                         // ALWAYS use 465 for SSL
       secure: true,                      // SSL true
@@ -80,6 +80,7 @@ router.post('/', async (req, res) => {
 
   } catch (error) {
     logger.error(`Nodemailer Error: ${error.message}`, { stack: error.stack });
+    console.log('Nodemailer Error:', error);
     return res.status(500).json({ error: 'Failed to send email.' });
   }
 });
