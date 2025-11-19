@@ -10,9 +10,20 @@ dotenv.config();
 
 const app = express();
 
-// Middleware — allow both production and local frontend origins
+// Middleware — allow both production and local frontend origins with a function
 app.use(cors({
-  origin: ['https://getfixwebsite.netlify.app', 'http://localhost:5173']
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://getfixwebsite.netlify.app',
+      'http://localhost:5173'
+    ];
+    // Allow requests with no origin like Postman or curl
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 }));
 
 app.use(express.json());
