@@ -1,17 +1,34 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import winston from 'winston';
 
 dotenv.config();
 
+const logger = winston.createLogger({
+  level: 'error',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.prettyPrint()
+  ),
+  transports: [
+    new winston.transports.Console(),
+  ],
+});
+
 const router = express.Router();
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 router.post('/', async (req, res) => {
   const { name, email, message } = req.body;
-  console.log(req.body)
 
   if (!name?.trim() || !email?.trim() || !message?.trim()) {
     return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format.' });
   }
 
   try {
@@ -62,7 +79,7 @@ router.post('/', async (req, res) => {
     return res.status(200).json({ message: 'Message sent successfully!' });
 
   } catch (error) {
-    console.error('Nodemailer Error:', error);
+    logger.error('Nodemailer Error:', error);
     return res.status(500).json({ error: 'Failed to send email.' });
   }
 });
