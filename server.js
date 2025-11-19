@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({ origin: 'https://getfixwebsite.netlify.app' }));
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 // MOUNT ROUTES — BOTH MUST BE HERE

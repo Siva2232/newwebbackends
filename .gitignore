@@ -1,44 +1,6 @@
-# Node modules folder
 node_modules/
-
-# Environment variables file
 .env
-
-# Logs
-logs
-*.log
-npm-debug.log*
-
-# Build output
-dist/
-build/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE files
 .vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-# Temporary files
-*.tmp
-*.swp
-*~
-# Coverage directory
-coverage/
-.nyc_output/
-# Dependency directories
-jspm_packages/
-bower_components/
-# TypeScript compiled output
-*.tsbuildinfo
-# Yarn integrity file
-.yarn-integrity
-# Parcel cache
-.cache/
-# Next.js build output
-.next/
-# Gatsby files
-.cache/
+dist/
+*.log
+.DS_Store
