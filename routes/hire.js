@@ -1,14 +1,13 @@
-// routes/hire.js
-import express from "express";
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
+const express = require('express');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
-  console.log("📩 Hire request received:", req.body);
+router.post('/', async (req, res) => {
+  console.log('📩 Hire request received:', req.body);
 
   const {
     businessName,
@@ -20,18 +19,18 @@ router.post("/", async (req, res) => {
     techniciansNeeded,
     experienceLevel,
     startDate,
-    message = "",
+    message = '',
   } = req.body;
 
   if (!businessName || !ownerName || !phone || !email) {
-    return res.status(400).json({ error: "Required fields missing" });
+    return res.status(400).json({ error: 'Required fields missing' });
   }
 
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST, // smtp.gmail.com or smtpout.secureserver.net
       port: Number(process.env.EMAIL_PORT), // 587 or 465
-      secure: process.env.EMAIL_PORT === "465",
+      secure: process.env.EMAIL_PORT === '465',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS, // Gmail App Password or GoDaddy password
@@ -65,9 +64,9 @@ router.post("/", async (req, res) => {
             message
               ? `<p style="margin-top:20px;"><strong>Additional Message:</strong><br>${message.replace(
                   /\n/g,
-                  "<br>"
+                  '<br>'
                 )}</p>`
-              : ""
+              : ''
           }
 
           <div style="margin-top:25px; background:#FFF3E6; padding:15px; border-left:5px solid #F37021; border-radius:6px;">
@@ -80,18 +79,18 @@ router.post("/", async (req, res) => {
 
     await transporter.sendMail({
       from: `"GetFix Academy" <${process.env.EMAIL_USER}>`,
-      to: "info@getfixacademy.com",
+      to: 'info@getfixacademy.com',
       replyTo: email,
       subject: `Hiring Request - ${businessName} (${techniciansNeeded} Technicians)`,
       html: htmlTemplate,
     });
 
-    console.log("✅ Hire email sent successfully!");
-    return res.json({ success: true, message: "Email sent successfully!" });
+    console.log('✅ Hire email sent successfully!');
+    return res.json({ success: true, message: 'Email sent successfully!' });
   } catch (error) {
-    console.error("❌ Email sending failed:", error.message);
-    return res.status(500).json({ error: "Failed to send email" });
+    console.error('❌ Email sending failed:', error.message);
+    return res.status(500).json({ error: 'Failed to send email' });
   }
 });
 
-export default router;
+module.exports = router;

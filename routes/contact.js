@@ -1,7 +1,7 @@
-import express from 'express';
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-import winston from 'winston';
+const express = require('express');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+const winston = require('winston');
 
 dotenv.config();
 
@@ -79,9 +79,9 @@ router.post('/', async (req, res) => {
     return res.status(200).json({ message: 'Message sent successfully!' });
 
   } catch (error) {
-    logger.error('Nodemailer Error:', error);
+    logger.error(`Nodemailer Error: ${error.message}`, { stack: error.stack });
     return res.status(500).json({ error: 'Failed to send email.' });
   }
 });
 
-export default router;
+module.exports = router;
