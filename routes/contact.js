@@ -35,8 +35,8 @@ router.post('/', async (req, res) => {
     // GoDaddy SMTP Transporter
     const transporter = await nodemailer.createTransport({
       host: "smtpout.secureserver.net",  // REQUIRED for GoDaddy
-      port: 465,                         // ALWAYS use 465 for SSL
-      secure: true,                      // SSL true
+      port: 587,                         // ALWAYS use 465 for SSL
+      secure: false,                      // SSL true
       auth: {
         user: process.env.EMAIL_USER,    // full email: info@yourdomain.com
         pass: process.env.EMAIL_PASS,    // normal email password
