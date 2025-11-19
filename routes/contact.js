@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const { name, email, message } = req.body;
+  console.log(req.body)
 
   if (!name?.trim() || !email?.trim() || !message?.trim()) {
     return res.status(400).json({ error: 'All fields are required.' });
